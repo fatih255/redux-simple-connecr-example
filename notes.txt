@@ -1,0 +1,80 @@
+CombinedReducer
+Returns
+(Function): A reducer that invokes every reducer inside the reducers object, 
+and constructs a state object with the same shape.
+
+
+connect(mapStateToProps, mapDispatchToProps, mergeProps, options)
+
+mapStateToProps (state, ownProps?)
+bu parametre redux state ine subscripe olur. Bunun anlamı redux store state inde her 
+güncellemede bu parametre çağırılır.
+aşağıdaki örnekte state her seferinde değişecek 
+const mapStateToProps = (state) => ({ todos: state.todos })
+
+bu fonksiyon tabikide ikinci bir parametre daha alır ownProps ise wrapperladığımız
+componentimiizin proplarını döndürür
+
+mapDispatchToProps (dispatch, ownProps?)
+
+1.parametre olan dispatch bize store umuzun dispatch ini vermektedir
+2.paremetre olan ownProps ise yine bizim componentimizin proplarıdır.
+!!! Ayrıca bu fonksiyon , componentimiz her yeni prop aldığında tekrar çağırılır
+
+mergeProps (stateProps, dispatchProps, ownProps)
+eğer bu parametre girilmezse varsayılan olarak 
+componentimizin propsları böyle olacaktır = { ...ownProps, ...stateProps, ...dispatchProps } 
+mergeProps return ettiği değerler hakkında :
+Not: mergeProps ta yeni değerler oluşması yeniden rendera sebep olur
+componentin yeniden oluşmasını engellemek için bu fieldları memorize etme tavsiye edilmektedir
+
+options?: Object
+{
+  context?: Object,
+  areStatesEqual?: Function,
+  areOwnPropsEqual?: Function,
+  areStatePropsEqual?: Function,
+  areMergedPropsEqual?: Function,
+  forwardRef?: boolean,
+}
+context
+bu parameteriyi kullanarak <Provider /> ile componentimizi bağlayabiliriz
+// const MyContext = React.createContext();
+connect(mapStateToProps, mapDispatchToProps, null, { context: MyContext })(
+  MyComponent
+)
+areStatesEqual: (next: Object, prev: Object, nextOwnProps: Object, prevOwnProps: Object) => boolean
+
+bu parametreyle storedaki state değişikliklerini göz artı ettirebilirsiniz yani yoksayabilirsiniz
+bu parametreyle next ve prev ile state değerlerinin kontrolünü yapmanının yanı sıra nextOwnProps ve prevOwnProps
+değerleriylede ilgili durumunuzu daha etkili bir şekilde belirlenmesini sağlayabilirsiniz
+Biliyorsunuzki bu ownpropslar componentimizin kendi proplarıdır.
+const areStatesEqual = (next, prev) =>
+  prev.entities.todos === next.entities.todos
+
+areOwnPropsEqual: (next: Object, prev: Object) => boolean​
+gelecek olan prop değerini önceki değerle karşılaştırabiliriz
+
+areStatePropsEqual: (next: Object, prev: Object) => boolean​
+type: function
+default value: shallowEqual
+mapStateToProps ile store statemizi alıyorduk ya işte burada aslında
+mapStateToProps ile önceki store değerlerimizi karşılaştırabiliyoruz
+
+areMergedPropsEqual: (next: Object, prev: Object) => boolean​
+default value: shallowEqual
+mergeProps daki değerleri bi önceki değeriyle karşılaştır
+
+////
+connect() returns   
+
+
+
+
+
+
+
+
+
+
+

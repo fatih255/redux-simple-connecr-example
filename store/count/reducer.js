@@ -1,4 +1,4 @@
-import { countActionTypes } from './action'
+import { ADD } from './constants';
 
 const countInitialState = {
   count: 0,
@@ -6,7 +6,7 @@ const countInitialState = {
 
 export default function reducer(state = countInitialState, action) {
   switch (action.type) {
-    case countActionTypes.ADD:
+    case ADD:
       return Object.assign({}, state, {
         count: state.count + 1,
       })

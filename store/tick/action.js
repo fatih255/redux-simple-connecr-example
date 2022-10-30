@@ -1,10 +1,8 @@
-export const tickActionTypes = {
-  TICK: 'TICK',
-}
+import { TICK } from './constants';
 
 export const serverRenderClock = (isServer) => (dispatch) => {
   return dispatch({
-    type: tickActionTypes.TICK,
+    type: TICK,
     light: !isServer,
     ts: Date.now(),
   })
@@ -12,7 +10,7 @@ export const serverRenderClock = (isServer) => (dispatch) => {
 
 export const startClock = () => (dispatch) => {
   return setInterval(
-    () => dispatch({ type: tickActionTypes.TICK, light: true, ts: Date.now() }),
+    () => dispatch({ type: TICK, light: true, ts: Date.now() }),
     1000
   )
 }
